@@ -29,7 +29,7 @@ app.get("/:id", async (req, res) => {
     if (user) {
       res.status(200).json({ success: true, user });
     } else {
-      res.status(400).json({ success: false, message: "User not found" });
+      res.status(401).json({ success: false, message: "User not found" });
     }
   } catch (error) {
     console.error(error);
@@ -107,7 +107,7 @@ app.post(
 
       if (save) {
         res
-          .status(200)
+          .status(201)
           .json({ success: true, message: "User added succesfully" });
       }
     } catch (error) {
@@ -214,12 +214,10 @@ app.delete("/:id", async (req, res) => {
         .status(200)
         .json({ success: true, message: "User deleted succesfully" });
     } else {
-      res
-        .status(200)
-        .json({
-          success: false,
-          message: "User not deleted, please try again"
-        });
+      res.status(200).json({
+        success: false,
+        message: "User not deleted, please try again"
+      });
     }
   } catch (error) {
     console.error(error);
