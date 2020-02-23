@@ -33,7 +33,7 @@ app.get("/:id", async (req, res) => {
     const found = await Task.findById(req.params.id);
 
     if (found) {
-      res.status(200).json({ success: true, task });
+      res.status(200).json({ success: true, task: found });
     } else {
       res.status(404).json({ success: false, message: "Task not found" });
     }
