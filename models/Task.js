@@ -11,4 +11,4 @@ const TaskSchema = new Schema({
   created: { type: Date, default: Date.now }
 });
 
-export default TaskModel = mongoose.model("TaskModel", TaskSchema);
+module.exports = mongoose.model("TaskModel", TaskSchema);
