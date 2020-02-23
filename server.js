@@ -6,7 +6,7 @@ const connectToDB = require("./config/dbConnect");
 
 app.use(express.json({ extended: false }));
 app.use("/api/users", require("./routes/Users"));
-//app.use("/api/tasks", require("./routes/Tasks"));
+app.use("/api/tasks", require("./routes/Tasks"));
 
 connectToDB();
 
