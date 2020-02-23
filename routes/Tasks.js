@@ -109,12 +109,17 @@ app.put(
       .not()
       .isEmpty()
   ],
-  (req, res) => {
+  async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(400).json({ success: false, errors: errors.array() });
     }
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+      return res
+        .status(400)
+        .json({ success: false, message: "Task ID is invalid" });
 
     try {
       const {
@@ -125,11 +130,65 @@ app.put(
         startDate,
         endDate
       } = req.body;
+
+      const edited = await Task.findByIdAndUpdate(
+        req.params.id,
+        {
+          title,
+          type,
+          additionalInformation,
+          user,
+          startDate,
+          endDate
+        },
+        { useFindAndModify: false }
+      );
+
+      if (edited) {
+        res
+          .status(200)
+          .json({ success: true, message: "Task updated succesfully" });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "Task not updated, please try again"
+        });
+      }
     } catch (error) {
       console.error(error);
       res.status(500).json({ success: false, message: "Server error" });
     }
   }
 );
+
+//@Request-Type: DELETE
+//@Route: /api/tasks/:id
+//@Description: Delete task
+app.delete("/:id", async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return res
+      .status(400)
+      .json({ success: false, message: "Task ID is invalid" });
+
+  try {
+    const deleted = await Task.findByIdAndDelete(req.params.id, {
+      useFindAndModify: false
+    });
+
+    if (deleted) {
+      res
+        .status(200)
+        .json({ success: true, message: "Task deleted succesfully" });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "Task not deleted, please try again"
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: fakse, message: "Server error" });
+  }
+});
 
 module.exports = app;
