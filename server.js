@@ -4,9 +4,9 @@ const config = require("config");
 const bodyParser = require("body-parser");
 const connectToDB = require("./config/dbConnect");
 
+app.use(express.json({ extended: false }));
 app.use("/api/users", require("./routes/Users"));
-app.use("/api/tasks", require("./routes/Tasks"));
-app.use(bodyParser.json());
+//app.use("/api/tasks", require("./routes/Tasks"));
 
 connectToDB();
 
