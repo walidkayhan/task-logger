@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 
 const TaskSchema = new Schema({
   title: { type: String, required: true },
-  type: String,
-  additionalInformation: String,
+  type: { type: String, default: null },
+  additionalInformation: { type: String, default: null },
   user: { type: mongoose.ObjectId, required: true },
-  startDate: Date,
-  endDate: Date,
+  startDate: { type: Date, default: null },
+  endDate: { type: Date, default: null },
   created: { type: Date, default: Date.now }
 });
 
