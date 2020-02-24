@@ -6,12 +6,14 @@ const TasksTable = () => {
     {
       title: "Task",
       dataIndex: "task",
-      key: "task"
+      key: "task",
+      sorter: (a, b) => a.task.length - b.task.length
     },
     {
       title: "Type",
       dataIndex: "type",
-      key: "type"
+      key: "type",
+      sorter: (a, b) => a.type.length - b.type.length
     },
     {
       title: "Description",
@@ -23,12 +25,13 @@ const TasksTable = () => {
       title: "User",
       dataIndex: "user",
       key: "user",
-      render: data => (
+      sorter: (a, b) => a.user.name.length - b.user.name.length,
+      render: user => (
         <div>
-          <Avatar style={{ backgroundColor: data.favoriteColor }}>
-            {data.name.charAt(0)}
+          <Avatar style={{ backgroundColor: user.favoriteColor }}>
+            {user.name.charAt(0)}
           </Avatar>{" "}
-          {data.name}
+          {user.name}
         </div>
       )
     },
