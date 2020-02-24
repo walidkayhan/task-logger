@@ -10,7 +10,8 @@ const About = () => {
 
       <h2 className="about-item">
         <Icon type="info-circle" /> This App was Developed By Walid Kayhan,
-        Febuary 2020
+        February 2020 <br /> Note that this app reverts the data back to it's
+        original state every 30 minutes
       </h2>
 
       <h2 className="about-item">
