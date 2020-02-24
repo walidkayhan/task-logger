@@ -1,46 +1,76 @@
 import React from "react";
-import { Typography, Table, Button, Icon, Popover } from "antd";
+import { Typography, Table, Button, Avatar } from "antd";
 
 const { Title } = Typography;
 
 const Users = () => {
   const columns = [
     {
+      title: "",
+      dataIndex: "icon",
+      key: "icon",
+      render: data => (
+        <Avatar style={{ backgroundColor: data.favoriteColor }}>
+          {data.firstLetter}
+        </Avatar>
+      )
+    },
+    {
       title: "Name",
       dataIndex: "name",
-      key: "name",
-      render: text => <a>{text}</a>
+      key: "name"
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age"
+      title: "Position",
+      dataIndex: "position",
+      key: "position"
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address"
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+      render: text => <a href={`mailto:${text}`}>{text}</a>
+    },
+    {
+      title: "Created",
+      dataIndex: "created",
+      key: "created"
     }
   ];
 
   const data = [
     {
       key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park"
+      icon: {
+        firstLetter: "J",
+        favoriteColor: "#f56a00"
+      },
+      name: "John Appleseed",
+      position: "Web Developer",
+      email: "john@appleseed.ca",
+      created: "2020-02-23"
     },
     {
       key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park"
+      icon: {
+        firstLetter: "M",
+        favoriteColor: "#faad14"
+      },
+      name: "Mike Wazowski",
+      position: "Marketing Manager",
+      email: "mike@monstersinc.ca",
+      created: "2020-01-03"
     },
     {
       key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sidney No. 1 Lake Park"
+      icon: {
+        firstLetter: "P",
+        favoriteColor: "#7cb305"
+      },
+      name: "Pamela Smith",
+      position: "Senior Accountant",
+      email: "pamela@example.ca",
+      created: "2019-06-14"
     }
   ];
 
