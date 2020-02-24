@@ -1,6 +1,7 @@
 import React from "react";
 import { Typography, Button } from "antd";
 import TasksTable from "./TasksTable";
+import AddTaskModal from "./AddTaskModal";
 
 const { Title } = Typography;
 
@@ -19,6 +20,8 @@ const Tasks = () => {
       </Button>
 
       <TasksTable />
+
+      <AddTaskModal />
     </div>
   );
 };
