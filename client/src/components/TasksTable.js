@@ -10,10 +10,10 @@ const TasksTable = () => {
       sorter: (a, b) => a.task.length - b.task.length
     },
     {
-      title: "Type",
-      dataIndex: "type",
-      key: "type",
-      sorter: (a, b) => a.type.length - b.type.length
+      title: "Department",
+      dataIndex: "department",
+      key: "department",
+      sorter: (a, b) => a.department.length - b.department.length
     },
     {
       title: "Description",
@@ -51,7 +51,7 @@ const TasksTable = () => {
     {
       key: "1",
       task: "Updated UI",
-      type: "Information Technology",
+      department: "Information Technology",
       description: "Updated UI of our website to a more modern look",
       user: {
         id: "njqhwudg7sa",
@@ -64,7 +64,7 @@ const TasksTable = () => {
     {
       key: "2",
       task: "Collected 2 Account Receivables",
-      type: "Financial",
+      department: "Financial",
       description: "Collected 2 payments for outstanding invoices",
       user: {
         id: "hjdsuiasgd783",
@@ -77,7 +77,7 @@ const TasksTable = () => {
     {
       key: "3",
       task: "Developed Advertisment Banner Wireframe",
-      type: "Marketing",
+      department: "Marketing",
       description: "",
       user: {
         id: "dnaduasy7321",
