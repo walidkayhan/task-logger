@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Modal, Button } from "antd";
 
+import AddTaskForm from "./AddTaskForm";
+
 const AddTaskModal = () => {
   const [visible, setVisible] = useState(false);
 
@@ -33,9 +35,7 @@ const AddTaskModal = () => {
           </Button>
         ]}
       >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        <AddTaskForm />
       </Modal>
     </div>
   );
