@@ -25,11 +25,11 @@ const AddTaskModal = () => {
         onOk={onOK}
         onCancel={onCancel}
         footer={[
-          <Button key="back" onClick={onCancel}>
-            Cancel
-          </Button>,
           <Button key="submit" type="primary" onClick={onOK}>
             Add
+          </Button>,
+          <Button key="back" onClick={onCancel}>
+            Cancel
           </Button>
         ]}
       >
