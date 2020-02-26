@@ -1,10 +1,8 @@
-import React from "react";
-import moment from "moment";
+import React, { useState } from "react";
 import { Input, Select, DatePicker } from "antd";
 
 const { Option } = Select;
 const { TextArea } = Input;
-const { MonthPicker, RangePicker } = DatePicker;
 
 const AddTaskForm = () => {
   function onChange(value) {
@@ -22,6 +20,48 @@ const AddTaskForm = () => {
   function onSearch(val) {
     console.log("search:", val);
   }
+
+  const disabledStartDate = startValue => {
+    if (!startValue || !datePicker.endValue) {
+      return false;
+    }
+    return startValue.valueOf() > datePicker.endValue.valueOf();
+  };
+
+  const disabledEndDate = endValue => {
+    if (!endValue || !datePicker.startValue) {
+      return false;
+    }
+    return endValue.valueOf() <= datePicker.startValue.valueOf();
+  };
+
+  const onCalendarChange = (field, value) => {
+    setDatePicker({ ...datePicker, [field]: value });
+  };
+
+  const onStartChange = value => {
+    onCalendarChange("startValue", value);
+  };
+
+  const onEndChange = value => {
+    onCalendarChange("endValue", value);
+  };
+
+  const handleStartOpenChange = open => {
+    if (!open) {
+      setDatePicker({ ...datePicker, endOpen: true });
+    }
+  };
+
+  const handleEndOpenChange = open => {
+    setDatePicker({ ...datePicker, endOpen: open });
+  };
+
+  const [datePicker, setDatePicker] = useState({
+    startValue: null,
+    endValue: null,
+    endOpen: false
+  });
 
   return (
     <div>
@@ -75,25 +115,27 @@ const AddTaskForm = () => {
         <Option value="pamelaSmith">Pamela Smith</Option>
       </Select>
 
-      {/* <DatePicker
-        disabledDate={this.disabledStartDate}
-        showTime
+      <br />
+      <br />
+
+      <DatePicker
+        disabledDate={disabledStartDate}
         format="YYYY-MM-DD"
-        value={startValue}
-        placeholder="Start"
-        onChange={this.onStartChange}
-        onOpenChange={this.handleStartOpenChange}
+        value={datePicker.startValue}
+        placeholder="Start Date"
+        onChange={onStartChange}
+        onOpenChange={handleStartOpenChange}
       />
       <DatePicker
-        disabledDate={this.disabledEndDate}
+        disabledDate={disabledEndDate}
         showTime
         format="YYYY-MM-DD"
-        value={endValue}
-        placeholder="End"
-        onChange={this.onEndChange}
-        open={endOpen}
-        onOpenChange={this.handleEndOpenChange}
-      /> */}
+        value={datePicker.endValue}
+        placeholder="End Date"
+        onChange={onEndChange}
+        open={datePicker.endOpen}
+        onOpenChange={handleEndOpenChange}
+      />
     </div>
   );
 };
