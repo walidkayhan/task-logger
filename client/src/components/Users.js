@@ -2,6 +2,7 @@ import React from "react";
 import { Typography, Button } from "antd";
 
 import UsersTable from "./UsersTable";
+import AddUserModal from "./AddUserModal";
 
 const { Title } = Typography;
 
@@ -20,6 +21,8 @@ const Users = () => {
       </Button>
 
       <UsersTable />
+
+      <AddUserModal />
     </div>
   );
 };
