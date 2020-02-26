@@ -7,25 +7,32 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "./layout/Header";
 import Footer from "./layout/Footer";
 
-import Tasks from "./components/Tasks";
-import Users from "./components/Users";
-import About from "./components/About";
+import Tasks from "./components/pages/Tasks";
+import Users from "./components/pages/Users";
+import About from "./components/pages/About";
+
+import Store from "./store/Store";
+import { Provider } from "react-redux";
 
 const App = () => {
   return (
-    <Router>
-      <Header />
+    <Provider store={Store}>
+      <Router>
+        <div className="wrapper">
+          <Header />
 
-      <div className="container">
-        <Switch>
-          <Route exact path="/" component={Tasks}></Route>
-          <Route exact path="/about" component={About}></Route>
-          <Route exact path="/users" component={Users}></Route>
-        </Switch>
-      </div>
+          <div className="container">
+            <Switch>
+              <Route exact path="/" component={Tasks}></Route>
+              <Route exact path="/about" component={About}></Route>
+              <Route exact path="/users" component={Users}></Route>
+            </Switch>
+          </div>
 
-      <Footer />
-    </Router>
+          <Footer />
+        </div>
+      </Router>
+    </Provider>
   );
 };
 
