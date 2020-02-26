@@ -5,10 +5,15 @@ import AddTaskForm from "./AddTaskForm";
 
 const AddTaskModal = () => {
   const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const onOK = e => {
-    console.log(e);
-    setVisible(false);
+    setLoading(true);
+
+    setTimeout(() => {
+      setVisible(false);
+      setLoading(false);
+    }, 1000);
   };
 
   const onCancel = e => {
@@ -26,9 +31,10 @@ const AddTaskModal = () => {
         visible={visible}
         onOk={onOK}
         onCancel={onCancel}
+        confirmLoading={loading}
         footer={[
-          <Button key="submit" type="primary" onClick={onOK}>
-            Add
+          <Button key="submit" type="primary" onClick={onOK} loading={loading}>
+            Add Task
           </Button>,
           <Button key="back" onClick={onCancel}>
             Cancel
