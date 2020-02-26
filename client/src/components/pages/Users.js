@@ -1,8 +1,8 @@
 import React from "react";
 import { Typography, Button } from "antd";
 
-import UsersTable from "./UsersTable";
-import AddUserModal from "./AddUserModal";
+import UsersTable from "../users/UsersTable";
+import AddUserModal from "../users/AddUserModal";
 
 const { Title } = Typography;
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography, Button } from "antd";
-import TasksTable from "./TasksTable";
-import AddTaskModal from "./AddTaskModal";
+import TasksTable from "../tasks/TasksTable";
+import AddTaskModal from "../tasks/AddTaskModal";
 
 const { Title } = Typography;
 
