@@ -16,13 +16,29 @@ import {
     CLEAR_ERRORS
   } from "../store/Types";
 
-import { message } from 'antd';
+import { message, notification } from 'antd';
 
 import axios from 'axios';
 
 const config = {
     headers: {
         'Content-Type': 'application/json'
+    }
+}
+
+const errorOutput = (error) => {
+    if(error.response.status === 500){
+        notification[error]({
+            message: error.response.data.message,
+            description:
+              'There seems to be a problem with the server right now, please try again later',
+          });
+    } else {
+        notification[error]({
+            message: 'Error',
+            description:
+              'There seems to be a problem right now, please try again later',
+          });
     }
 }
 
@@ -39,10 +55,6 @@ export const addTask = async (task) => dispatch => {
         }
         
     } catch (error) {
-        if(error.response.status === 500){
-
-        } else {
-
-        }
+        errorOutput(error);
     }
 }
