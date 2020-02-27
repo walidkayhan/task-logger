@@ -89,12 +89,11 @@ app.post(
           .status(201)
           .json({ success: true, message: "Task added succesfully" });
       } else {
-        res
-          .status(400)
-          .json({
-            success: false,
-            message: "There was a problem adding the task, please try again"
-          });
+        res.status(400).json({
+          success: false,
+          message: "There was a problem adding the task, please try again",
+          task: saved
+        });
       }
     } catch (error) {
       console.error(error);
