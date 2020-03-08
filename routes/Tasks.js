@@ -52,7 +52,10 @@ app.post(
     check("title", "Please type in the task title")
       .not()
       .isEmpty(),
-    check("user", "Please specify the user")
+    check("user._id")
+      .not()
+      .isEmpty(),
+    check("user.name", "Please specify the user")
       .not()
       .isEmpty()
   ],
@@ -66,8 +69,8 @@ app.post(
     try {
       const {
         title,
-        type,
-        additionalInformation,
+        department,
+        description,
         user,
         startDate,
         endDate
@@ -75,8 +78,9 @@ app.post(
 
       const task = new Task({
         title,
-        type,
-        additionalInformation,
+        department,
+        description,
+
         user,
         startDate,
         endDate
@@ -85,9 +89,11 @@ app.post(
       const saved = await task.save();
 
       if (saved) {
-        res
-          .status(201)
-          .json({ success: true, message: "Task added succesfully" });
+        res.status(201).json({
+          success: true,
+          message: "Task added succesfully",
+          task: saved
+        });
       } else {
         res.status(400).json({
           success: false,
@@ -130,7 +136,7 @@ app.put(
     try {
       const {
         title,
-        type,
+        department,
         additionalInformation,
         user,
         startDate,
@@ -141,7 +147,7 @@ app.put(
         req.params.id,
         {
           title,
-          type,
+          department,
           additionalInformation,
           user,
           startDate,
