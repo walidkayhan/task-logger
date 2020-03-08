@@ -56,6 +56,9 @@ app.post(
     check("position", "Please type in your company position")
       .not()
       .isEmpty(),
+    check("department", "Please type in the department you are in")
+      .not()
+      .isEmpty(),
     check("favoriteColor", "Please specify your favorite color")
       .not()
       .isEmpty()
@@ -74,6 +77,7 @@ app.post(
         lastName,
         email,
         position,
+        department,
         favoriteColor
       } = req.body;
 
@@ -100,6 +104,7 @@ app.post(
         lastName,
         email,
         position,
+        department,
         favoriteColor
       });
 
