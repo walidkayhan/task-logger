@@ -1,90 +1,79 @@
-import React, { useState } from "react";
-import { Input, Select, DatePicker } from "antd";
+import React, { useEffect } from "react";
+import { Input, Select, DatePicker, Form } from "antd";
+import moment from "moment";
+
+import { connect } from "react-redux";
+
+import { setCurrentTask } from "../../actions/taskActions";
+import { getUsers } from "../../actions/userActions";
 
 const { Option } = Select;
 const { TextArea } = Input;
+const { RangePicker } = DatePicker;
+const { Item } = Form;
 
-const AddTaskForm = () => {
-  function onChange(value) {
-    console.log(`selected ${value}`);
-  }
+const AddTaskForm = ({
+  currentTask,
+  users,
+  loading,
+  setCurrentTask,
+  getUsers
+}) => {
+  const [form] = Form.useForm();
 
-  function onBlur() {
-    console.log("blur");
-  }
+  useEffect(() => {
+    getUsers();
 
-  function onFocus() {
-    console.log("focus");
-  }
+    return () => {
+      //
+    };
+  }, []);
 
-  function onSearch(val) {
-    console.log("search:", val);
-  }
-
-  const disabledStartDate = startValue => {
-    if (!startValue || !datePicker.endValue) {
-      return false;
-    }
-    return startValue.valueOf() > datePicker.endValue.valueOf();
+  const onChange = e => {
+    setCurrentTask({ [e.target.id]: e.target.value });
   };
 
-  const disabledEndDate = endValue => {
-    if (!endValue || !datePicker.startValue) {
-      return false;
-    }
-    return endValue.valueOf() <= datePicker.startValue.valueOf();
+  const onDateChange = (dates, dateStrings) => {
+    setCurrentTask({
+      ...currentTask,
+      startDate: dateStrings[0],
+      endDate: dateStrings[1]
+    });
   };
-
-  const onCalendarChange = (field, value) => {
-    setDatePicker({ ...datePicker, [field]: value });
-  };
-
-  const onStartChange = value => {
-    onCalendarChange("startValue", value);
-  };
-
-  const onEndChange = value => {
-    onCalendarChange("endValue", value);
-  };
-
-  const handleStartOpenChange = open => {
-    if (!open) {
-      setDatePicker({ ...datePicker, endOpen: true });
-    }
-  };
-
-  const handleEndOpenChange = open => {
-    setDatePicker({ ...datePicker, endOpen: open });
-  };
-
-  const [datePicker, setDatePicker] = useState({
-    startValue: null,
-    endValue: null,
-    endOpen: false
-  });
 
   return (
-    <div>
-      <Input placeholder="Task Name" />
-      <br />
-      <br />
+    <Form form={form} name="register" scrollToFirstError>
+      <Item
+        rules={[
+          {
+            type: "email",
+            message: "The input is not valid E-mail!"
+          },
+          {
+            required: true,
+            message: "Please input your E-mail!"
+          }
+        ]}
+      >
+        <Input placeholder="Task Name" id="title" onChange={e => onChange(e)} />
+      </Item>
+
       <Select
         showSearch
         style={{ width: 200 }}
         placeholder="Select a Department"
         optionFilterProp="children"
-        onChange={onChange}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onSearch={onSearch}
+        onChange={value =>
+          setCurrentTask({ ...currentTask, department: value })
+        }
         filterOption={(input, option) =>
           option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
       >
-        <Option value="InformationTechnology">Information Technology</Option>
+        <Option value="Information Technology">Information Technology</Option>
         <Option value="Financial">Financial</Option>
         <Option value="Marketing">Marketing</Option>
-        <Option value="CustomerService">Customer Service</Option>
+        <Option value="Customer Service">Customer Service</Option>
         <Option value="Shipping">Shipping</Option>
         <Option value="Manufacturing">Manufacturing</Option>
       </Select>
@@ -92,7 +81,13 @@ const AddTaskForm = () => {
       <br />
       <br />
 
-      <TextArea placeholder="Task Description" allowClear onChange={onChange} />
+      <TextArea
+        placeholder="Task Description"
+        allowClear
+        id="description"
+        onChange={e => onChange(e)}
+        value={currentTask.description}
+      />
 
       <br />
       <br />
@@ -102,42 +97,47 @@ const AddTaskForm = () => {
         style={{ width: 200 }}
         placeholder="Select a User"
         optionFilterProp="children"
-        onChange={onChange}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onSearch={onSearch}
+        id="user"
+        onChange={value =>
+          setCurrentTask({ ...currentTask, user: JSON.parse(value) })
+        }
         filterOption={(input, option) =>
           option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
+        loading={loading}
       >
-        <Option value="johnAppleseed">John Appleseed</Option>
-        <Option value="mikeWazowski">Mike Wazowski</Option>
-        <Option value="pamelaSmith">Pamela Smith</Option>
+        {users.map(user => (
+          <Option
+            key={user._id}
+            value={JSON.stringify({
+              name: `${user.firstName} ${user.lastName}`,
+              _id: user._id,
+              favoriteColor: user.favoriteColor
+            })}
+          >{`${user.firstName} ${user.lastName}`}</Option>
+        ))}
       </Select>
 
       <br />
       <br />
 
-      <DatePicker
-        disabledDate={disabledStartDate}
+      <RangePicker
+        ranges={{
+          Today: [moment(), moment()]
+        }}
+        onChange={onDateChange}
         format="YYYY-MM-DD"
-        value={datePicker.startValue}
-        placeholder="Start Date"
-        onChange={onStartChange}
-        onOpenChange={handleStartOpenChange}
       />
-      <DatePicker
-        disabledDate={disabledEndDate}
-        showTime
-        format="YYYY-MM-DD"
-        value={datePicker.endValue}
-        placeholder="End Date"
-        onChange={onEndChange}
-        open={datePicker.endOpen}
-        onOpenChange={handleEndOpenChange}
-      />
-    </div>
+    </Form>
   );
 };
 
-export default AddTaskForm;
+const mapStateToProps = state => ({
+  currentTask: state.tasks.currentTask,
+  users: state.users.users,
+  loading: state.users.loading
+});
+
+export default connect(mapStateToProps, { setCurrentTask, getUsers })(
+  AddTaskForm
+);

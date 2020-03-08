@@ -3,9 +3,13 @@ import { Typography, Button } from "antd";
 import TasksTable from "../tasks/TasksTable";
 import AddTaskModal from "../tasks/AddTaskModal";
 
+import { connect } from "react-redux";
+
+import { openModal } from "../../actions/taskActions";
+
 const { Title } = Typography;
 
-const Tasks = () => {
+const Tasks = ({ openModal }) => {
   return (
     <div>
       <Title className="text-center">Tasks</Title>
@@ -15,6 +19,7 @@ const Tasks = () => {
         size={"large"}
         icon="file-add"
         style={{ marginBottom: "1rem" }}
+        onClick={() => openModal()}
       >
         Add New Task
       </Button>
@@ -26,4 +31,4 @@ const Tasks = () => {
   );
 };
 
-export default Tasks;
+export default connect(null, { openModal })(Tasks);

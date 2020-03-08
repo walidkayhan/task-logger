@@ -1,34 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal, Button } from "antd";
+import { connect } from "react-redux";
 
 import AddTaskForm from "./AddTaskForm";
 
-const AddTaskModal = () => {
-  const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
+import { addTask, openModal, closeModal } from "../../actions/taskActions";
 
-  const onOK = e => {
-    setLoading(true);
+const AddTaskModal = ({
+  addTask,
+  closeModal,
+  loading,
+  currentTask,
+  showModal
+}) => {
+  const onOK = () => addTask(currentTask);
 
-    setTimeout(() => {
-      setVisible(false);
-      setLoading(false);
-    }, 1000);
-  };
-
-  const onCancel = e => {
-    console.log(e);
-    setVisible(false);
-  };
+  const onCancel = () => closeModal();
 
   return (
     <div>
-      <Button type="primary" onClick={() => setVisible(true)}>
-        Open Modal
-      </Button>
       <Modal
         title="Add New Task"
-        visible={visible}
+        visible={showModal}
         onOk={onOK}
         onCancel={onCancel}
         confirmLoading={loading}
@@ -47,4 +40,12 @@ const AddTaskModal = () => {
   );
 };
 
-export default AddTaskModal;
+const mapStateToProps = state => ({
+  loading: state.tasks.loading,
+  currentTask: state.tasks.currentTask,
+  showModal: state.tasks.showModal
+});
+
+export default connect(mapStateToProps, { addTask, openModal, closeModal })(
+  AddTaskModal
+);

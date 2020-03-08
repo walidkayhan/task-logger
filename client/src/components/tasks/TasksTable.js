@@ -1,93 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Avatar } from "antd";
 
-const TasksTable = () => {
-  const columns = [
-    {
-      title: "Task",
-      dataIndex: "task",
-      key: "task",
-      sorter: (a, b) => a.task.length - b.task.length
-    },
-    {
-      title: "Department",
-      dataIndex: "department",
-      key: "department",
-      sorter: (a, b) => a.department.length - b.department.length
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      render: text => (text ? text : "None")
-    },
-    {
-      title: "User",
-      dataIndex: "user",
-      key: "user",
-      sorter: (a, b) => a.user.name.length - b.user.name.length,
-      render: user => (
-        <div>
-          <Avatar style={{ backgroundColor: user.favoriteColor }}>
-            {user.name.charAt(0)}
-          </Avatar>{" "}
-          {user.name}
-        </div>
-      )
-    },
-    {
-      title: "Start Date",
-      dataIndex: "startDate",
-      key: "startDate"
-    },
-    {
-      title: "End Date",
-      dataIndex: "endDate",
-      key: "endDate"
-    }
-  ];
+import { connect } from "react-redux";
 
-  const data = [
-    {
-      key: "1",
-      task: "Updated UI",
-      department: "Information Technology",
-      description: "Updated UI of our website to a more modern look",
-      user: {
-        id: "njqhwudg7sa",
-        name: "John Appleseed",
-        favoriteColor: "#f56a00"
-      },
-      startDate: "2020-02-17",
-      endDate: "2020-02-24"
-    },
-    {
-      key: "2",
-      task: "Collected 2 Account Receivables",
-      department: "Financial",
-      description: "Collected 2 payments for outstanding invoices",
-      user: {
-        id: "hjdsuiasgd783",
-        name: "Pamela Smith",
-        favoriteColor: "#7cb305"
-      },
-      startDate: "2020-02-23",
-      endDate: "2020-02-23"
-    },
-    {
-      key: "3",
-      task: "Developed Advertisment Banner Wireframe",
-      department: "Marketing",
-      description: "",
-      user: {
-        id: "dnaduasy7321",
-        name: "Mike Wazowski",
-        favoriteColor: "#faad14"
-      },
-      startDate: "2020-02-17",
-      endDate: "2020-02-24"
-    }
-  ];
+import { getTasks } from "../../actions/taskActions";
+
+import moment from "moment";
+
+const { Column } = Table;
+
+const TasksTable = ({ getTasks, tasks, loading }) => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    getTasks();
+  }, []);
+
+  useEffect(() => {
+    setData(
+      tasks.map(task => {
+        return {
+          key: task._id,
+          title: task.title,
+          department: task.department,
+          description: task.description,
+          user: {
+            id: task.user._id,
+            name: task.user.name,
+            favoriteColor: task.user.favoriteColor
+              ? task.user.favoriteColor
+              : "#00000"
+          },
+          startDate: task.startDate,
+          endDate: task.endDate
+        };
+      })
+    );
+  }, [tasks]);
+
   const [selectedRows, setSelectedRows] = useState([]);
 
   const onSelectChange = selectedRowKeys => setSelectedRows(selectedRowKeys);
@@ -97,8 +47,53 @@ const TasksTable = () => {
   };
 
   return (
-    <Table columns={columns} dataSource={data} rowSelection={rowSelection} />
+    <Table dataSource={data} rowSelection={rowSelection} loading={loading}>
+      <Column
+        title="Task"
+        dataIndex="title"
+        key="title"
+        sorter={(a, b) => a.title.length - b.title.length}
+      />
+      <Column title="Department" dataIndex="department" key="department" />
+      <Column title="Description" dataIndex="description" key="description" />
+      <Column
+        title="User"
+        dataIndex="user"
+        key="user"
+        render={(text, data) => (
+          <div>
+            <Avatar style={{ backgroundColor: data.user.favoriteColor }}>
+              {data.user.name.charAt(0)}
+            </Avatar>{" "}
+            {data.user.name}
+          </div>
+        )}
+      />
+      <Column
+        title="Start Date"
+        dataIndex="startDate"
+        key="startDate"
+        render={(text, data) =>
+          data.startDate ? moment(data.startDate).format("YYYY-MM-DD") : "None"
+        }
+      />
+      <Column
+        title="End Date"
+        dataIndex="endDate"
+        key="endDate"
+        render={(text, data) =>
+          data.endDate !== null
+            ? moment(data.endDate).format("YYYY-MM-DD")
+            : "None"
+        }
+      />
+    </Table>
   );
 };
 
-export default TasksTable;
+const mapStateToProps = state => ({
+  tasks: state.tasks.tasks,
+  loading: state.tasks.loading
+});
+
+export default connect(mapStateToProps, { getTasks })(TasksTable);
