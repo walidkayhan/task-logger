@@ -18,7 +18,7 @@ import {
 
 const initialState = {
   users: [],
-  loading: false,
+  userLoading: false,
   message: "",
   showModal: false,
   currentUser: null,
@@ -32,14 +32,14 @@ export default (state = initialState, action) => {
       return {
         ...state,
         users: action.payload,
-        loading: false
+        userLoading: false
       };
 
     case ADD_USER:
       return {
         ...state,
         users: [action.payload, ...state.users],
-        loading: false
+        userLoading: false
       };
 
     case EDIT_USER:
@@ -48,14 +48,14 @@ export default (state = initialState, action) => {
         users: state.users.map(user =>
           user.id === action.payload.id ? action.payload : user
         ),
-        loading: false
+        userLoading: false
       };
 
     case DELETE_USERS:
       return {
         ...state,
         users: state.users.filter(user => user.id !== action.payload.id),
-        loading: false
+        userLoading: false
       };
 
     case SET_CURRENT_USER:
@@ -111,14 +111,14 @@ export default (state = initialState, action) => {
     case SET_LOADING:
       return {
         ...state,
-        loading: true
+        userLoading: true
       };
 
     case HANDLE_ERRORS:
       return {
         ...state,
         errors: action.payload,
-        loading: false
+        userLoading: false
       };
 
     case CLEAR_ERRORS:

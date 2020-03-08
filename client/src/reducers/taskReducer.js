@@ -18,11 +18,18 @@ import {
 
 const initialState = {
   tasks: [],
-  loading: false,
+  taskLoading: false,
   message: "",
   showModal: false,
   selectedTasks: [],
-  currentTask: null,
+  currentTask: {
+    title: "",
+    department: "",
+    description: "",
+    user: null,
+    startDate: null,
+    endDate: null
+  },
   errors: null
 };
 
@@ -32,7 +39,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         tasks: action.payload,
-        loading: false
+        taskLoading: false
       };
 
     case ADD_TASK:
@@ -40,7 +47,7 @@ export default (state = initialState, action) => {
         ...state,
         tasks: [action.payload, ...state.tasks],
         showModal: false,
-        loading: false
+        taskLoading: false
       };
 
     case EDIT_TASK:
@@ -49,20 +56,20 @@ export default (state = initialState, action) => {
         tasks: state.tasks.map(task =>
           task.id === action.payload.id ? action.payload : task
         ),
-        loading: false
+        taskLoading: false
       };
 
     case DELETE_TASKS:
       return {
         ...state,
         tasks: state.tasks.filter(task => task.id !== action.payload.id),
-        loading: false
+        taskLoading: false
       };
 
     case SET_CURRENT_TASK:
       return {
         ...state,
-        currentTask: action.payload
+        currentTask: { ...state.currentTask, ...action.payload }
       };
 
     case CLEAR_CURRENT_TASK:
@@ -112,14 +119,14 @@ export default (state = initialState, action) => {
     case SET_LOADING:
       return {
         ...state,
-        loading: true
+        taskLoading: true
       };
 
     case HANDLE_ERRORS:
       return {
         ...state,
-        errors: action.payload,
-        loading: false
+        //errors: action.payload,
+        taskLoading: false
       };
 
     case CLEAR_ERRORS:
