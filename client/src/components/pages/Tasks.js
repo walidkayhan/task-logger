@@ -1,4 +1,5 @@
 import React from "react";
+import { FileAddOutlined } from '@ant-design/icons';
 import { Typography, Button } from "antd";
 import TasksTable from "../tasks/TasksTable";
 import AddTaskModal from "../tasks/AddTaskModal";
@@ -17,7 +18,7 @@ const Tasks = ({ openModal }) => {
       <Button
         type="primary"
         size={"large"}
-        icon="file-add"
+        icon={<FileAddOutlined />}
         style={{ marginBottom: "1rem" }}
         onClick={() => openModal()}
       >

@@ -1,12 +1,12 @@
 import React from "react";
 
-import { Icon } from "antd";
+import { UserOutlined } from '@ant-design/icons';
 
 const Footer = () => {
   return (
     <footer className="footer">
       <h3 className="text-light">
-        <Icon type="user" /> Developed by Walid Kayhan
+        <UserOutlined /> Developed by Walid Kayhan
       </h3>
     </footer>
   );

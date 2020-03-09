@@ -1,4 +1,5 @@
 import React from "react";
+import { UserAddOutlined } from '@ant-design/icons';
 import { Typography, Button } from "antd";
 
 import UsersTable from "../users/UsersTable";
@@ -14,7 +15,7 @@ const Users = () => {
       <Button
         type="primary"
         size={"large"}
-        icon="user-add"
+        icon={<UserAddOutlined />}
         style={{ marginBottom: "1rem" }}
       >
         Add New User

@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
-import { Input, Select, DatePicker, Form } from "antd";
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Select, DatePicker } from "antd";
 import moment from "moment";
 
 import { connect } from "react-redux";
