@@ -109,7 +109,7 @@ export default (state = initialState, action) => {
     case SELECT_TASK:
       return {
         ...state,
-        selectedTasks: action.payload
+        selectedTasks: [action.payload, ...state.selectedTasks]
       };
 
     case SELECT_ALL_TASKS:
