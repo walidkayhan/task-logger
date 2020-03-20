@@ -21,6 +21,7 @@ const TasksTable = ({
   getTasks,
   openModal,
   selectTask,
+  unselectTask,
   selectAllTasks,
   unselectAllTasks,
   selectedTasks,
@@ -56,22 +57,25 @@ const TasksTable = ({
 
   const [data, setData] = useState([]);
 
-  const onSelectChange = selected => {
-    console.log(selected);
-    selected.length > 0 ? selectTask(selected) : selectTask([]);
-  };
+  const onSelect = (record, selected) =>
+    selected ? selectTask(record.key) : unselectTask(record.key);
 
   const onSelectAll = selected =>
     selected ? selectAllTasks() : unselectAllTasks();
 
   const rowSelection = {
     selectedTasks,
-    onChange: onSelectChange,
+    onSelect: onSelect,
     onSelectAll
   };
 
   return (
-    <Table dataSource={data} rowSelection={rowSelection} loading={loading}>
+    <Table
+      dataSource={data}
+      rowSelection={rowSelection}
+      loading={loading}
+      pagination={{ pageSize: 5, hideOnSinglePage: true }}
+    >
       <Column
         title="Task"
         dataIndex="title"
