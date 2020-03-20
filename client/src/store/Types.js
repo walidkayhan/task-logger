@@ -1,5 +1,6 @@
 //General Types
-export const SET_LOADING = "SET_LOADING";
+export const SET_TASK_LOADING = "SET_TASK_LOADING";
+export const SET_USER_LOADING = "SET_USER_LOADING";
 export const HANDLE_ERRORS = "HANDLE_ERRORS";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 
@@ -10,12 +11,13 @@ export const EDIT_TASK = "EDIT_TASK";
 export const DELETE_TASKS = "DELETE_TASKS";
 export const SET_CURRENT_TASK = "SET_CURRENT_TASK";
 export const CLEAR_CURRENT_TASK = "CLEAR_CURRENT_TASK";
+export const SELECT_CURRENT_TASK = "SELECT_CURRENT_TASK";
 export const SELECT_TASK = "SELECT_TASK";
-export const SELECT_TASKS = "SELECT_TASKS";
+export const SELECT_ALL_TASKS = "SELECT_ALL_TASKS";
 export const UNSELECT_TASK = "UNSELECT_TASK";
 export const UNSELECT_ALL_TASKS = "UNSELECT_ALL_TASKS";
-export const OPEN_ADD_TASK_MODAL = "OPEN_ADD_TASK_MODAL";
-export const CLOSE_ADD_TASK_MODAL = "CLOSE_ADD_TASK_MODAL";
+export const OPEN_TASK_MODAL = "OPEN_TASK_MODAL";
+export const CLOSE_TASK_MODAL = "CLOSE_ADD_TASK_MODAL";
 
 //User Types
 export const GET_USERS = "GET_USERS";
