@@ -182,34 +182,51 @@ app.put(
   }
 );
 
-//@Request-Type: DELETE
-//@Route: /api/tasks/:id
-//@Description: Delete task
-app.delete("/:id", async (req, res) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return res
-      .status(400)
-      .json({ success: false, message: "Task ID is invalid" });
+//@Request-Type: POST
+//@Route: /api/tasks/delete
+//@Description: Delete tasks
+app.post(
+  "/delete",
+  [check("tasksList", "Please provide the list of tasks to delete").isArray()],
+  async (req, res) => {
+    const errors = validationResult(req);
 
-  try {
-    const deleted = await Task.findByIdAndDelete(req.params.id, {
-      useFindAndModify: false
-    });
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, errors: errors.array() });
+    }
 
-    if (deleted) {
-      res
-        .status(200)
-        .json({ success: true, message: "Task deleted succesfully" });
-    } else {
-      res.status(400).json({
+    if (req.body.tasksList.length === 0) {
+      return res.status(400).json({
         success: false,
-        message: "Task not deleted, please try again"
+        message: "Please provide at least one task to delete"
       });
     }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: fakse, message: "Server error" });
+
+    if (req.body.tasksList.some(task => !mongoose.Types.ObjectId.isValid(task)))
+      return res.status(400).json({
+        success: false,
+        message:
+          "One or more of the tasks are invalid, please provide valid tasks only"
+      });
+
+    try {
+      const deleted = await Task.deleteMany({ _id: req.body.tasksList });
+
+      if (deleted) {
+        res
+          .status(200)
+          .json({ success: true, message: "Task deleted succesfully" });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "Task(s) not deleted, please try again later"
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, message: "Server error" });
+    }
   }
-});
+);
 
 module.exports = app;
