@@ -1,17 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { Table, Avatar } from "antd";
+import { EditOutlined } from "@ant-design/icons";
 
 import { connect } from "react-redux";
 
-import { getTasks } from "../../actions/taskActions";
+import {
+  getTasks,
+  openModal,
+  selectTask,
+  unselectTask,
+  selectAllTasks,
+  unselectAllTasks
+} from "../../actions/taskActions";
 
 import moment from "moment";
 
 const { Column } = Table;
 
-const TasksTable = ({ getTasks, tasks, loading }) => {
-  const [data, setData] = useState([]);
-
+const TasksTable = ({
+  getTasks,
+  openModal,
+  selectTask,
+  selectAllTasks,
+  unselectAllTasks,
+  selectedTasks,
+  tasks,
+  loading
+}) => {
   useEffect(() => {
     getTasks();
   }, []);
@@ -32,18 +47,27 @@ const TasksTable = ({ getTasks, tasks, loading }) => {
               : "#00000"
           },
           startDate: task.startDate,
-          endDate: task.endDate
+          endDate: task.endDate,
+          editTask: task._id
         };
       })
     );
   }, [tasks]);
 
-  const [selectedRows, setSelectedRows] = useState([]);
+  const [data, setData] = useState([]);
 
-  const onSelectChange = selectedRowKeys => setSelectedRows(selectedRowKeys);
+  const onSelectChange = selected => {
+    console.log(selected);
+    selected.length > 0 ? selectTask(selected) : selectTask([]);
+  };
+
+  const onSelectAll = selected =>
+    selected ? selectAllTasks() : unselectAllTasks();
+
   const rowSelection = {
-    selectedRows,
-    onChange: onSelectChange
+    selectedTasks,
+    onChange: onSelectChange,
+    onSelectAll
   };
 
   return (
@@ -87,13 +111,31 @@ const TasksTable = ({ getTasks, tasks, loading }) => {
             : "None"
         }
       />
+      <Column
+        title="Edit"
+        dataIndex="editTask"
+        key="editTask"
+        render={(text, data) => (
+          <a href="#!" onClick={() => openModal("editTask", data.key)}>
+            <EditOutlined style={{ fontSize: "2rem" }} />
+          </a>
+        )}
+      />
     </Table>
   );
 };
 
 const mapStateToProps = state => ({
   tasks: state.tasks.tasks,
-  loading: state.tasks.loading
+  loading: state.tasks.taskLoading,
+  selectedTasks: state.tasks.selectedTasks
 });
 
-export default connect(mapStateToProps, { getTasks })(TasksTable);
+export default connect(mapStateToProps, {
+  getTasks,
+  openModal,
+  selectTask,
+  unselectTask,
+  selectAllTasks,
+  unselectAllTasks
+})(TasksTable);
