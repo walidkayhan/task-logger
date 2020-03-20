@@ -52,6 +52,9 @@ app.post(
     check("title", "Please type in the task title")
       .not()
       .isEmpty(),
+    check("department", "Please specify the department")
+      .not()
+      .isEmpty(),
     check("user._id")
       .not()
       .isEmpty(),
