@@ -62,8 +62,17 @@ export default (state = initialState, action) => {
       return {
         ...state,
         tasks: state.tasks.map(task =>
-          task.id === action.payload.id ? action.payload : task
+          task._id === action.payload._id ? action.payload : task
         ),
+        currentTask: {
+          title: "",
+          department: "",
+          description: "",
+          user: null,
+          startDate: null,
+          endDate: null
+        },
+        showModal: false,
         taskLoading: false
       };
 
