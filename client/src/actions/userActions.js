@@ -12,7 +12,7 @@ import {
   OPEN_ADD_USER_MODAL,
   CLOSE_ADD_USER_MODAL,
   HANDLE_ERRORS,
-  SET_LOADING
+  SET_USER_LOADING
 } from "../store/Types";
 
 import { message, notification } from "antd";
@@ -45,7 +45,7 @@ const errorOutput = (error, dispatch) => {
 
 export const getUsers = () => async dispatch => {
   try {
-    dispatch({ type: SET_LOADING });
+    dispatch({ type: SET_USER_LOADING });
 
     const res = await axios.get("/api/users", null, config);
 
