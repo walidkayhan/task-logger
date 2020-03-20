@@ -120,7 +120,13 @@ app.put(
     check("title", "Please type in the task title")
       .not()
       .isEmpty(),
-    check("user", "Please specify the user")
+    check("department", "Please specify the department")
+      .not()
+      .isEmpty(),
+    check("user._id")
+      .not()
+      .isEmpty(),
+    check("user.name", "Please specify the user")
       .not()
       .isEmpty()
   ],
