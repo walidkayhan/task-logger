@@ -46,6 +46,14 @@ export default (state = initialState, action) => {
       return {
         ...state,
         tasks: [action.payload, ...state.tasks],
+        currentTask: {
+          title: "",
+          department: "",
+          description: "",
+          user: null,
+          startDate: null,
+          endDate: null
+        },
         showModal: false,
         taskLoading: false
       };
