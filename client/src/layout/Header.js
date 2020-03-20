@@ -1,5 +1,9 @@
 import React from "react";
-import { InfoCircleOutlined, ProfileOutlined, TeamOutlined } from '@ant-design/icons';
+import {
+  InfoCircleOutlined,
+  ProfileOutlined,
+  TeamOutlined
+} from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
 
@@ -11,22 +15,19 @@ const Header = () => {
 
         <Menu.Item key="tasks">
           <Link to="/">
-            <ProfileOutlined />
-            Tasks
+            <ProfileOutlined /> Tasks
           </Link>
         </Menu.Item>
 
         <Menu.Item key="users">
           <Link to="/users">
-            <TeamOutlined />
-            Users
+            <TeamOutlined /> Users
           </Link>
         </Menu.Item>
 
         <Menu.Item key="about">
           <Link to="/about">
-            <InfoCircleOutlined />
-            About
+            <InfoCircleOutlined /> About
           </Link>
         </Menu.Item>
       </Menu>
