@@ -11,7 +11,7 @@ import {
   UNSELECT_ALL_USERS,
   OPEN_ADD_USER_MODAL,
   CLOSE_ADD_USER_MODAL,
-  SET_LOADING,
+  SET_USER_LOADING,
   HANDLE_ERRORS,
   CLEAR_ERRORS
 } from "../store/Types";
@@ -108,7 +108,7 @@ export default (state = initialState, action) => {
         showModal: false
       };
 
-    case SET_LOADING:
+    case SET_USER_LOADING:
       return {
         ...state,
         userLoading: true
