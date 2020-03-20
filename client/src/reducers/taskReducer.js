@@ -79,7 +79,10 @@ export default (state = initialState, action) => {
     case DELETE_TASKS:
       return {
         ...state,
-        tasks: state.tasks.filter(task => task.id !== action.payload.id),
+        tasks: state.tasks.filter(
+          task => !action.payload.some(deletedTask => task._id === deletedTask)
+        ),
+        selectedTasks: [],
         taskLoading: false
       };
 
