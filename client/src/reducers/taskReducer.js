@@ -122,7 +122,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         selectedTasks: state.selectedTasks.filter(
-          task => task._id !== action.payload._id
+          taskID => taskID !== action.payload
         )
       };
 
